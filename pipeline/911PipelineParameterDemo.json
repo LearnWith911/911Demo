@@ -1,0 +1,81 @@
+{
+	"name": "911PipelineParameterDemo",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ParameterizedDataset",
+						"type": "DatasetReference",
+						"parameters": {
+							"tableName": {
+								"value": "@pipeline().parameters.tableNamePipelineParam",
+								"type": "Expression"
+							},
+							"dbName": {
+								"value": "@pipeline().parameters.dbNamePipelineParam",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ParameterizedDataset",
+						"type": "DatasetReference",
+						"parameters": {
+							"tableName": "DestinationTable",
+							"dbName": {
+								"value": "@pipeline().parameters.dbNamePipelineParam",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			}
+		],
+		"parameters": {
+			"dbNamePipelineParam": {
+				"type": "string"
+			},
+			"tableNamePipelineParam": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-01-13T20:40:49Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
