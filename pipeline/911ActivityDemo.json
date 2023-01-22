@@ -1,0 +1,57 @@
+{
+	"name": "911ActivityDemo",
+	"properties": {
+		"activities": [
+			{
+				"name": "Web1",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://dummy.restapiexample.com/api/v1/create",
+					"method": "POST",
+					"body": {
+						"name": "911Employee",
+						"salary": "911",
+						"age": "16"
+					}
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Web1",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "employeejson",
+					"value": {
+						"value": "@activity('Web1').output",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"variables": {
+			"employeejson": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-01-15T22:07:57Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
