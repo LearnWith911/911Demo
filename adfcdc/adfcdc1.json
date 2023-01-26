@@ -1,0 +1,227 @@
+{
+	"name": "adfcdc1",
+	"properties": {
+		"SourceConnectionsInfo": [
+			{
+				"SourceEntities": [
+					{
+						"name": "cdc",
+						"properties": {
+							"schema": [
+								{
+									"name": "id",
+									"dataType": "short"
+								},
+								{
+									"name": "name",
+									"dataType": "string"
+								},
+								{
+									"name": "age",
+									"dataType": "short"
+								},
+								{
+									"name": " salary",
+									"dataType": "integer"
+								}
+							],
+							"dslConnectorProperties": [
+								{
+									"name": "format",
+									"value": "delimited"
+								},
+								{
+									"name": "container",
+									"value": "cdc"
+								},
+								{
+									"name": "fileSystem",
+									"value": "cdc"
+								},
+								{
+									"name": "enableCdc",
+									"value": true
+								},
+								{
+									"name": "skipInitialLoad",
+									"value": true
+								},
+								{
+									"name": "columnNamesAsHeader",
+									"value": true
+								},
+								{
+									"name": "columnDelimiter",
+									"value": ","
+								},
+								{
+									"name": "escapeChar",
+									"value": "\\\\"
+								},
+								{
+									"name": "quoteChar",
+									"value": "\\\""
+								}
+							]
+						}
+					}
+				],
+				"Connection": {
+					"linkedService": {
+						"referenceName": "AzureBlobStorage1",
+						"type": "LinkedServiceReference"
+					},
+					"linkedServiceType": "AzureBlobStorage",
+					"type": "linkedservicetype",
+					"isInlineDataset": true
+				}
+			}
+		],
+		"TargetConnectionsInfo": [
+			{
+				"TargetEntities": [
+					{
+						"name": "911container/input",
+						"properties": {
+							"schema": [
+								{
+									"name": "Billing Number",
+									"dataType": "string"
+								},
+								{
+									"name": "Posted Date",
+									"dataType": "date"
+								},
+								{
+									"name": "Amount",
+									"dataType": "string"
+								},
+								{
+									"name": "Description",
+									"dataType": "string"
+								}
+							],
+							"dslConnectorProperties": [
+								{
+									"name": "format",
+									"value": "delimited"
+								},
+								{
+									"name": "container",
+									"value": "911container"
+								},
+								{
+									"name": "fileSystem",
+									"value": "911container"
+								},
+								{
+									"name": "columnNamesAsHeader",
+									"value": true
+								},
+								{
+									"name": "columnDelimiter",
+									"value": ","
+								},
+								{
+									"name": "escapeChar",
+									"value": "\\\\"
+								},
+								{
+									"name": "quoteChar",
+									"value": "\\\""
+								},
+								{
+									"name": "folderPath",
+									"value": "input"
+								}
+							]
+						}
+					}
+				],
+				"Connection": {
+					"linkedService": {
+						"referenceName": "AzureBlobStorage1",
+						"type": "LinkedServiceReference"
+					},
+					"linkedServiceType": "AzureBlobStorage",
+					"type": "linkedservicetype",
+					"isInlineDataset": true
+				},
+				"DataMapperMappings": [
+					{
+						"targetEntityName": "911container/input",
+						"sourceEntityName": "cdc",
+						"sourceConnectionReference": {
+							"connectionName": "AzureBlobStorage1",
+							"type": "linkedservicetype"
+						},
+						"attributeMappingInfo": {
+							"attributeMappings": [
+								{
+									"name": "Amount",
+									"type": "Direct",
+									"functionName": "",
+									"attributeReference": {
+										"name": "id",
+										"entity": "cdc",
+										"entityConnectionReference": {
+											"connectionName": "AzureBlobStorage1",
+											"type": "linkedservicetype"
+										}
+									}
+								},
+								{
+									"name": "Billing Number",
+									"type": "Direct",
+									"functionName": "",
+									"attributeReference": {
+										"name": "name",
+										"entity": "cdc",
+										"entityConnectionReference": {
+											"connectionName": "AzureBlobStorage1",
+											"type": "linkedservicetype"
+										}
+									}
+								},
+								{
+									"name": "Description",
+									"type": "Direct",
+									"functionName": "",
+									"attributeReference": {
+										"name": "age",
+										"entity": "cdc",
+										"entityConnectionReference": {
+											"connectionName": "AzureBlobStorage1",
+											"type": "linkedservicetype"
+										}
+									}
+								},
+								{
+									"name": "Posted Date",
+									"type": "Direct",
+									"functionName": "",
+									"attributeReference": {
+										"name": " salary",
+										"entity": "cdc",
+										"entityConnectionReference": {
+											"connectionName": "AzureBlobStorage1",
+											"type": "linkedservicetype"
+										}
+									}
+								}
+							]
+						}
+					}
+				],
+				"Relationships": []
+			}
+		],
+		"Policy": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 15
+			},
+			"mode": "Non-continuous"
+		}
+	}
+}
